@@ -69,4 +69,5 @@ object Functions extends App {
 
     isPrimeUntil(n / 2)
   }
+  println(isPrime(2))
 }
