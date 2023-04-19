@@ -69,5 +69,5 @@ object Functions extends App {
 
     isPrimeUntil(n / 2)
   }
-  println(isPrime(10))
+  println(isPrime(11))
 }
