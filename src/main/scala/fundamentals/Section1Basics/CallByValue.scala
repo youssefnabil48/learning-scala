@@ -1,5 +1,5 @@
 package org.learning
-package fundamentals
+package fundamentals.Section1Basics
 
 object CallByValue extends App {
 
