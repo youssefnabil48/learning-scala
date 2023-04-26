@@ -1,8 +1,6 @@
 package org.learning
 package fundamentals.Section2OOP
 
-import scala.annotation.unused
-
 object OOPBasicsExercise extends App {
 
   class Writer(firstName: String, surName: String, val yearOfBirth: Int) {
@@ -37,7 +35,7 @@ object OOPBasicsExercise extends App {
   val c = new Counter
   println(c.increment.increment.count())
   println(c.decrement.increment(10).decrement(5).count())
-  
+
 }
 
 // tutorial implementation
