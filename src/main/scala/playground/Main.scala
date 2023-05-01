@@ -1,6 +1,7 @@
 package org.learning
 package playground
 
+
 object Main {
   def main(args: Array[String]): Unit = {
     // values
@@ -90,5 +91,33 @@ object Main {
       word + recursivePrintLoop(word, loopCount - 1)
     }
     println(recursivePrintLoop("Hello", 3))
+
+    def show(x: Option[String]) = x match {
+      case Some(s) => s
+      case None => "?"
+    }
+
+    val capitals = Map("France" -> "Paris", "Japan" -> "Tokyo")
+
+    println("show(capitals.get( \"Japan\")) : " + show(capitals.get("Japan")))
+    println("show(capitals.get( \"India\")) : " + show(capitals.get("India")))
+
+    println(show(Some("kasjfkaj")))
+    println(show(None))
+
+    def isIntOrString(t: Either[Int, String]): String = {
+      t match {
+        case Left(i) => "%d is an Integer".format(i)
+        case Right(s) => "%s is a String".format(s)
+      }
+    }
+
+    println(isIntOrString(Left(10))) // prints "10 is an Integer"
+    println(isIntOrString(Right("hello"))) // prints "hello is a String"
+
+    val myLinkedList = new MyLinkedList[Int]()
+    val populatedList = myLinkedList.add(1).add(2).add(3).add(4).add(5)
+    println(populatedList.head.get.next.get.next.get.next.head.data)
+    println(populatedList.traverse())
   }
 }
