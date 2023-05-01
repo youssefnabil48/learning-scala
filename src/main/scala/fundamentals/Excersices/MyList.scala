@@ -18,7 +18,7 @@ abstract class MyList[+A] {
   def printElements: String
 }
 
-class EmptyList extends MyList[Nothing] {
+case class EmptyList() extends MyList[Nothing] {
   override def head: Nothing = throw new NoSuchElementException()
   override def tail: MyList[Nothing] = throw new NoSuchElementException()
   override def isEmpty: Boolean = true
@@ -27,7 +27,7 @@ class EmptyList extends MyList[Nothing] {
   override def printElements: String = ""
 }
 
-class NodesList[A](h: A, t: MyList[A]) extends MyList[A] {
+case class NodesList[A](h: A, t: MyList[A]) extends MyList[A] {
   override def head: A = h
   override def tail: MyList[A] = t
   override def isEmpty: Boolean = false
