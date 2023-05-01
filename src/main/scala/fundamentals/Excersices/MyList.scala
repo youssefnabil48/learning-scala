@@ -1,6 +1,8 @@
 package org.learning
 package fundamentals.Excersices
 
+import java.util.function.Predicate
+
 abstract class MyList[+A] {
 
   def head: A
@@ -42,6 +44,13 @@ class NodesList[A](h: A, t: MyList[A]) extends MyList[A] {
     if (this.isEmpty) ""
     else this.head.toString + " " + printElements
   }
+}
+
+trait Transformer[A, B] {
+  def transform(value: A): B
+}
+trait MyPredicate[T] {
+  def test(t: T): Boolean
 }
 
 object MyList extends App {

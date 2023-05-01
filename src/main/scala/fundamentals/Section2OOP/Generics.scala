@@ -47,4 +47,26 @@ object Generics extends App {
   // generic type needs proper bounded type
   //  val newCage = new Cage(new Car)
 
+  trait MyPredicate[T] {
+    def test(t: T): Boolean
+  }
+
+  class MyPredicateImplementor extends MyPredicate[Int] {
+    override def test(t: Int): Boolean = if(t == 1) true else false
+  }
+
+  val myPredicateImplementorObject = new MyPredicateImplementor()
+  println(myPredicateImplementorObject.test(1))
+
+  trait Transformer[A,B] {
+    def transform(value: A): B
+  }
+
+  class TransformerImplementor extends Transformer[Int, String] {
+    override def transform(value: Int): String = value.toString
+  }
+
+  val transformerImplementorObject = new TransformerImplementor()
+  println(transformerImplementorObject.transform(1))
+
 }
