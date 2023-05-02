@@ -46,4 +46,16 @@ object HOFsAndCurries extends App {
     x + y * a.toInt + b + m
   }
   println(mixedParamCurriedFunction(1,2)("5", 2)(1))
+//  quite complicated
+//  def toCurry(f: (Int, Int) => Int): (Int => Int => Int) =
+//    x => y => f(x, y)
+//
+//  def fromCurry(f: (Int => Int => Int)): (Int, Int) => Int =
+//    (x, y) => f(x)(y)
+//
+//  def compose[A, B, T](f: A => B, g: T => A): T => B =
+//    x => f(g(x))
+//
+//  def andThen[A, B, C](f: A => B, g: B => C): A => C =
+//    x => g(f(x))
 }
