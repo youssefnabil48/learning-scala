@@ -24,6 +24,7 @@ object GrowthOfPopulation extends App {
   private def nbYear(p0: Int, percent: Double, aug: Int, p: Int): Int = {
     @tailrec
     def populationCalculator(p0: Int, percent: Double, aug: Int, numberOfYears: Int): Int = {
+      if (p0 >= p) return numberOfYears
       val populationNumber = p0 + (p0 * percent / 100).toInt + aug
       if (populationNumber >= p) numberOfYears + 1 else populationCalculator(populationNumber, percent, aug, numberOfYears + 1)
     }
@@ -31,4 +32,5 @@ object GrowthOfPopulation extends App {
   }
   println(nbYear(1000, 2.0, 50, 1200))
   println(nbYear(1500, 5.0, 100, 5000))
+  println(nbYear(1000, 2.0, 50, 1000))
 }
