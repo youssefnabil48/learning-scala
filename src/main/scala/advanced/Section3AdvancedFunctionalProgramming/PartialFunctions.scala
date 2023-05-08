@@ -2,7 +2,10 @@ package org.learning
 package advanced.Section3AdvancedFunctionalProgramming
 
 /**
- * In Scala, a partial function is a function that is only defined for certain values of its input parameter(s)
+ * In Scala, * a partial function is a function that is only defined for certain values of its input parameter(s) or
+ *           * a partial function is a function that is defined only for a subset of its input domain.
+ *           It is a function that may not be defined for all possible input values,
+ *           and therefore it is not guaranteed to return a result for every possible input.
  * 1. Partial functions extend normal functions
  * 2. Partial functions can only have ONE parameter type
  * 3. I think it is only meant for a shorthand or syntactic sugar for smaller code
