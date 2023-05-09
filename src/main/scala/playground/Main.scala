@@ -1,6 +1,8 @@
 package org.learning
 package playground
 
+import advanced.Section3AdvancedFunctionalProgramming.Monads.Attempt
+
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -119,5 +121,14 @@ object Main {
     val populatedList = myLinkedList.add(1).add(2).add(3).add(4).add(5)
     println(populatedList.head.get.next.get.next.get.next.head.data)
     println(populatedList.traverse())
+
+    val attempt = Attempt {
+      throw new RuntimeException("oh my goooooddd")
+    }
+    val functionx = null
+    val attempt2 = Attempt(functionx)
+    println(attempt2)
+
+    println(Option(null))
   }
 }
