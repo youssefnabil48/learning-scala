@@ -48,6 +48,7 @@ class EmptyMySet[A]() extends MySet[A] {
   override def difference(anotherSet: MySet[A]): MySet[A] = this.--(anotherSet)
   def unary_! : MySet[A] = new PropertyBasedSet[A](_ => true)
 }
+
 class PropertyBasedSet[A](property: A => Boolean) extends MySet[A] {
   def contains(elem: A): Boolean = property(elem)
   // { x in A | property(x) } + element = { x in A | property(x) || x == element }
@@ -70,6 +71,7 @@ class PropertyBasedSet[A](property: A => Boolean) extends MySet[A] {
   def unary_! : MySet[A] = new PropertyBasedSet[A](x => !property(x))
   private def politelyFail = throw new IllegalArgumentException("Really deep rabbit hole!")
 }
+
 class FullMySet[A](val head: A, val tail: MySet[A]) extends MySet[A] {
   override def contains(element: A): Boolean = element == head || tail.contains(element)
   override def +(element: A): MySet[A] = {
