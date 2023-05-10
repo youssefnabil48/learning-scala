@@ -3,12 +3,14 @@ package advanced.Section3AdvancedFunctionalProgramming
 
 /**
  * Notes:
- * 1. lifting = ETA-EXPANSION (lifting is wrapping a method in a function form so it can be passed to HOF)
+ * 1. lifting is wrapping a method in a function form so it can be passed to HOF
  * 2. functions != methods (JVM limitation):
  *    a method is a member of a class or object that can have side effects and can be called on an instance of the class or object,
  *    while a function is a standalone block of code that is typically pure and can be called directly by its name.
  * 3. using _ to denote that you don't care about the second parameter list to return the curried function without specifying the type
  *     [ val add5 = curriedAdder(5) _ ] exactly equal to [ val add5: Int => Int = curriedAdder(5) ]
+ * 4. Eta expansion is a technique in functional programming where a function that takes multiple arguments is
+ *    transformed into a function that takes fewer arguments by partially applying the function with one or more of its arguments.
  */
 object CurriesPAF extends App {
   // curried functions
