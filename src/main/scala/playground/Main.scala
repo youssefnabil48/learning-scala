@@ -130,5 +130,8 @@ object Main {
     println(attempt2)
 
     println(Option(null))
+
+    val incFunction: Int => Int = (n: Int) => n + 1
+    def incMethod(n: Int): Int = n + 1
   }
 }
