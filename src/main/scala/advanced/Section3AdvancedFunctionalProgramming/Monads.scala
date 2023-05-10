@@ -46,4 +46,26 @@ object Monads extends App {
     override def flatMap[B](f: Nothing => Attempt[B]): Attempt[B] = this // Failure(e)
   }
 
+
+  // Lazy monad exercise
+  class Lazy[+A](value: => A) {
+    private lazy val internalValue = value
+    def use: A = internalValue // unit
+    def flatMap[B](f: (=> A) => Lazy[B]): Lazy[B] = f(internalValue) // bind
+  }
+
+  object Lazy {
+    def apply[A](value: => A): Lazy[A] = new Lazy(value)
+  }
+
+  val l = Lazy {
+    println("naahh i won't work")
+    42
+  }
+
+  private val instance1 = l.flatMap(x => Lazy { 10 * x })
+  private val instance2 = l.flatMap(x => Lazy { 10 * x })
+  instance1.use
+  instance2.use
+
 }
