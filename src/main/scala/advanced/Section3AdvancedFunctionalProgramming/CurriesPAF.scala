@@ -9,7 +9,7 @@ package advanced.Section3AdvancedFunctionalProgramming
  *    while a function is a standalone block of code that is typically pure and can be called directly by its name.
  * 3. using _ to denote that you don't care about the second parameter list to return the curried function without specifying the type
  *     [ val add5 = curriedAdder(5) _ ] exactly equal to [ val add5: Int => Int = curriedAdder(5) ]
- * 4. Eta expansion can also be used where a function that takes multiple arguments is
+ * 4. Eta expansion (by Partially Applied Functions) is where a function that takes multiple arguments is
  *    transformed into a function that takes fewer arguments by partially applying the function with one or more of its arguments.
  */
 object CurriesPAF extends App {
