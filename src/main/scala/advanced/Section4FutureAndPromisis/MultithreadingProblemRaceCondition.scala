@@ -14,6 +14,9 @@ import scala.util.Random
  * - To avoid race condition with vars one of the two options must be provided
  *    1. synchronized method and putting the critical section inside
  *         - This method ensures that no other thread is executing this part of the code at the same time
+ *         - it locks the object monitor (object monitor is a data structure used by the jvm to lock objects shared with many threads)
+ *         - only anyRefs can only have synchronized methods (anyRefs all - primitive types)
+ *         - make no assumption on which thread gets the lock first
  *    2. @volatile var (used with variables only)
  *         - this variable annotation ensures that all threads see the most recent value of the variable at any given time
  * -
