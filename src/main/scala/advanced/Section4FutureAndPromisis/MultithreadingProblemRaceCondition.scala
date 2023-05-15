@@ -18,7 +18,7 @@ import scala.util.Random
  *         - this variable annotation ensures that all threads see the most recent value of the variable at any given time
  * -
  */
-object MultithreadingProblem1 extends App {
+object MultithreadingProblemRaceCondition extends App {
 
   // problem statement
   // ==========================================================
