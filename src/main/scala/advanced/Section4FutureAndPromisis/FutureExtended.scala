@@ -9,7 +9,7 @@ import java.net.URL
 import scala.util.{Failure, Success}
 import play.api.libs.json._
 
-object FutureTest extends App {
+object FutureExtended extends App {
   def operation1(x: Int = 0): Future[Int] = {
     Future {
       Thread.sleep(1000)
@@ -75,17 +75,18 @@ object FutureTest extends App {
   }
 
   callingApi().foreach(println)
-  for { result <- callingApi() } yield println(result)
+  for { result <- callingApi() } yield println(s"foreach result of calling api $result")
 
   callingApi().recover {
-    case e => println(e)
+    case e => println(s"recover $e")
   }
 
   callingApi().recoverWith {
     case _ => operation2()
   }
 
-  callingApi() fallbackTo Future.successful(42)
+  val fallbackResult = callingApi() fallbackTo Future.successful(42)
+  fallbackResult.foreach(x => println(x))
 
 //  callingApi() andThen println("hello")
 

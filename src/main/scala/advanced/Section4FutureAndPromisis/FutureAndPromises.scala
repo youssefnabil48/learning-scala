@@ -26,21 +26,20 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object FutureAndPromises extends App {
 
-  // calculation is on ANOTHER thread
   val aFuture = Future {
     Thread.sleep(2000)
     42
-  } // (global) which is passed by the compiler
+  }
   println(aFuture.value) // Option[Try[Int]]
   println("Waiting on the future")
   aFuture.onComplete {
     case Success(meaningOfLife) => println(s"the meaning of life is $meaningOfLife")
     case Failure(e) => println(s"I have failed with $e")
-  } // SOME thread
+  }
   Thread.sleep(3000)
 
   //==================================================================================
-  // mini social network
+  // mini social network example
   //==================================================================================
   case class Profile(id: String, name: String) {
     def poke(anotherProfile: Profile) =
