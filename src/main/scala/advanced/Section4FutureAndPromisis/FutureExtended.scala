@@ -65,12 +65,12 @@ object FutureExtended extends App {
 
   def callingApi(): Future[String] = {
     Future {
-      val url = new URL("https://api.github.com/users/bard")
+      val url = new URL("https://jsonplaceholder.typicode.com/todos/1")
       val response = url.openStream()
       val json = scala.io.Source.fromInputStream(response).mkString
       val user = Json.parse(json)
-      user("login").toString()
-      throw new RuntimeException("there was intentional exception here")
+      user("title").toString()
+//      throw new RuntimeException("there was intentional exception here")
     }
   }
 
