@@ -34,7 +34,7 @@ object ImplicitsOrdering extends App {
   val numbers = List(1,2,3,5,4)
 //   implicit def reverseIntOrdering: Ordering[Int] = Ordering.fromLessThan(_ > _)
   implicit def normalIntOredring: Ordering[Int] = new Ordering[Int] {
-    override def compare(x: Int, y: Int): Int = if(x < y) 1 else -1
+    override def compare(x: Int, y: Int): Int = if(x < y) 1 else if(x > y) -1 else 0
   }
   println(numbers.sorted) // what is import scala.math.Numeric.IntIsIntegral (appears when compiler is confused
 
