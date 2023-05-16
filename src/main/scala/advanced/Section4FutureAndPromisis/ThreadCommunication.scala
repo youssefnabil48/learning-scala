@@ -115,7 +115,7 @@ object ThreadCommunication extends App {
 //  multipleProducerConsumer()
 
   //=====================================================================
-  // 1 producer and one consumer with buffer
+  // one producer and one consumer with buffer
   //=====================================================================
 
   def producerConsumerBuffer(): Unit = {
@@ -159,5 +159,5 @@ object ThreadCommunication extends App {
     consumer.start()
     producer.start()
   }
-  producerConsumerBuffer()
+//  producerConsumerBuffer()
 }
