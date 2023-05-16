@@ -3,6 +3,7 @@ package advanced.Section4FutureAndPromisis
 
 import scala.collection.mutable
 import scala.util.Random
+import util.control.Breaks._
 
 
 /**
@@ -33,7 +34,6 @@ object ThreadCommunication extends App {
   //=====================================================================
   // wait and notify
   //=====================================================================
-
   private class SimpleContainer {
     private var v: Int = 0
     def value_=(newValue: Int): Unit = v = newValue
@@ -78,7 +78,6 @@ object ThreadCommunication extends App {
   // Multiple producer consumer problem
   //=====================================================================
   // Node: If the consumers are more than the producers the consumers that didn't consume any value will still be waiting indefinitely
-
   def createProducers(container: => SimpleContainer, number: Int): Unit = {
     println(container)
     if(number <= 0) return
@@ -117,7 +116,6 @@ object ThreadCommunication extends App {
   //=====================================================================
   // one producer and one consumer with buffer
   //=====================================================================
-
   def producerConsumerBuffer(): Unit = {
     val buffer: mutable.Queue[Int] = new mutable.Queue[Int]
     val capacity = 3
@@ -160,4 +158,61 @@ object ThreadCommunication extends App {
     producer.start()
   }
 //  producerConsumerBuffer()
+
+  //=====================================================================
+  // multiple producers and consumers with buffer
+  //=====================================================================
+  // Or replace if with while instead of the breakable
+  def multipleProducerConsumersBuffer(number: Int): Unit = {
+    val buffer: mutable.Queue[Int] = new mutable.Queue[Int]
+    val capacity = 3
+    for(i <- 1 to number ) {
+      new Thread(() => {
+        val random = new Random()
+        while (true) {
+          buffer.synchronized {
+            if (buffer.isEmpty) {
+              println(s"[consumer $i] buffer empty, waiting...")
+              buffer.wait()
+            }
+            breakable {
+              if (buffer.isEmpty) {
+                buffer.notify()
+                break
+              }
+              val x = buffer.dequeue()
+              println(s"[consumer $i] consumed " + x)
+              buffer.notify()
+            }
+          }
+          Thread.sleep(random.nextInt(1000))
+        }
+      }).start()
+
+      new Thread(() => {
+        val random = new Random()
+        var i = 0
+        while (true) {
+          buffer.synchronized {
+            if (buffer.size == capacity) {
+              println(s"[producer $i] buffer is full, waiting...")
+              buffer.wait()
+            }
+            breakable {
+              if (buffer.size == capacity) {
+                buffer.notify()
+                break
+              }
+              println(s"[producer $i] producing " + i)
+              buffer.enqueue(i)
+              buffer.notify()
+              i += 1
+            }
+          }
+          Thread.sleep(random.nextInt(1000))
+        }
+      }).start()
+    }
+  }
+//  multipleProducerConsumersBuffer(10)
 }
