@@ -26,10 +26,10 @@ object ThreadCommunication extends App {
       obj.value += 1
     }
     val obj = MyMutableClass(10)
-    println(obj.value)
+//    println(obj.value) // 10
     modifyValue(obj, 20)
     incrementValue(obj)
-    println(obj.value)
+//    println(obj.value) // 21
 
   //=====================================================================
   // wait and notify
@@ -215,4 +215,75 @@ object ThreadCommunication extends App {
     }
   }
 //  multipleProducerConsumersBuffer(10)
+
+  //=====================================================================
+  // Deadlock
+  //=====================================================================
+
+  // Example 1
+  class Person(val name: String) {
+    def call(other: Person): Unit = {
+      this.synchronized {
+        println(s"${this.name} calling ${other.name}")
+        other.respond(this)
+      }
+    }
+
+    def respond(caller: Person): Unit = {
+      this.synchronized {
+        println(s"${this.name} responding to ${caller.name}")
+      }
+    }
+  }
+
+  val ahmed = new Person("Ahmed")
+  val mohamed = new Person("Mohamed")
+
+  new Thread(() => ahmed.call(mohamed)).start()
+//  Thread.sleep(2000)
+  new Thread(() => mohamed.call(ahmed)).start()
+
+  // Example 2
+  class Account(val name: String, var balance: Double) {
+    def withdraw(amount: Double): Unit = {
+      this.synchronized {
+        if (balance >= amount) {
+          Thread.sleep(1000)
+          balance -= amount
+          println(s"Withdrawn $amount from account $name")
+        } else {
+          println(s"Insufficient balance in account $name")
+        }
+      }
+    }
+
+    def deposit(amount: Double): Unit = {
+      this.synchronized {
+        Thread.sleep(1000)
+        balance += amount
+        println(s"Deposited $amount into account $name")
+      }
+    }
+
+    def transferFunds(to: Account, amount: Double): Unit = {
+      this.synchronized {
+        withdraw(amount)
+        Thread.sleep(1000)
+        to.deposit(amount)
+      }
+    }
+  }
+
+  val account1 = new Account("Account 1", 1000.0)
+  val account2 = new Account("Account 2", 500.0)
+
+  val thread1 = new Thread(() => account1.transferFunds(account2, 200.0))
+  val thread2 = new Thread(() => account2.transferFunds(account1, 300.0))
+
+  thread1.start()
+  thread2.start()
+
+  thread1.join()
+  thread2.join()
+
 }
