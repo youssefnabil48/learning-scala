@@ -1,6 +1,9 @@
 package org.learning
 package advanced.Section4FutureAndPromisis
 
+import scala.collection.mutable
+import scala.util.Random
+
 
 /**
  * Notes:
@@ -12,6 +15,21 @@ package advanced.Section4FutureAndPromisis
  * 5. no any guarantees which thread will get the lock and proceed
  */
 object ThreadCommunication extends App {
+
+  // proving pass by reference works in scala
+    case class MyMutableClass(var value: Int)
+    def modifyValue(obj: MyMutableClass, newValue: Int): Unit = {
+      obj.value = newValue
+    }
+    def incrementValue(obj: MyMutableClass): Unit = {
+      obj.value += 1
+    }
+    val obj = MyMutableClass(10)
+    println(obj.value)
+    modifyValue(obj, 20)
+    incrementValue(obj)
+    println(obj.value)
+
   //=====================================================================
   // wait and notify
   //=====================================================================
@@ -62,6 +80,7 @@ object ThreadCommunication extends App {
   // Node: If the consumers are more than the producers the consumers that didn't consume any value will still be waiting indefinitely
 
   def createProducers(container: => SimpleContainer, number: Int): Unit = {
+    println(container)
     if(number <= 0) return
     new Thread(() => {
       println(s"[producer $number] Hard at work...")
@@ -77,6 +96,7 @@ object ThreadCommunication extends App {
   }
 
   def createConsumers(container: => SimpleContainer, number: Int): Unit = {
+    println(container)
     if (number <= 0) return
     new Thread(() => {
       println(s"[consumer $number] waiting...")
@@ -92,19 +112,52 @@ object ThreadCommunication extends App {
     createProducers(container, 10)
     createConsumers(container, 10)
   }
-  multipleProducerConsumer()
+//  multipleProducerConsumer()
 
-  // proving pass by reference works in scala
-//  case class MyMutableClass(var value: Int)
-//  def modifyValue(obj: MyMutableClass, newValue: Int): Unit = {
-//    obj.value = newValue
-//  }
-//  def incrementValue(obj: MyMutableClass): Unit = {
-//    obj.value += 1
-//  }
-//  val obj = MyMutableClass(10)
-//  println(obj.value)
-//  modifyValue(obj, 20)
-//  incrementValue(obj)
-//  println(obj.value)
+  //=====================================================================
+  // 1 producer and one consumer with buffer
+  //=====================================================================
+
+  def producerConsumerBuffer(): Unit = {
+    val buffer: mutable.Queue[Int] = new mutable.Queue[Int]
+    val capacity = 3
+
+    val consumer = new Thread(() => {
+      val random = new Random()
+      while (true) {
+        buffer.synchronized {
+          if (buffer.isEmpty) {
+            println("[consumer] buffer empty, waiting...")
+            buffer.wait()
+          }
+          val x = buffer.dequeue()
+          println("[consumer] consumed " + x)
+          buffer.notify()
+        }
+        Thread.sleep(random.nextInt(250))
+      }
+    })
+
+    val producer = new Thread(() => {
+      val random = new Random()
+      var i = 0
+      while (true) {
+        buffer.synchronized {
+          if (buffer.size == capacity) {
+            println("[producer] buffer is full, waiting...")
+            buffer.wait()
+          }
+          println("[producer] producing " + i)
+          buffer.enqueue(i)
+          buffer.notify()
+          i += 1
+        }
+        Thread.sleep(random.nextInt(500))
+      }
+    })
+
+    consumer.start()
+    producer.start()
+  }
+  producerConsumerBuffer()
 }
