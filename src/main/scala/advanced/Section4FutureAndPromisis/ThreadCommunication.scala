@@ -12,13 +12,13 @@ package advanced.Section4FutureAndPromisis
  * 5. no any guarantees which thread will get the lock and proceed
  */
 object ThreadCommunication extends App {
-
+  //=====================================================================
   // wait and notify
+  //=====================================================================
 
   private class SimpleContainer {
     private var v: Int = 0
-    def isEmpty: Boolean = v == 0
-    def value_=(newValue: Int): Unit = v = value
+    def value_=(newValue: Int): Unit = v = newValue
     def value: Int = {
       val result = v
       v = 0
@@ -54,6 +54,57 @@ object ThreadCommunication extends App {
     consumer.join()
     producer.join()
   }
+  //  producerConsumer()
 
-  producerConsumer()
+  //=====================================================================
+  // Multiple producer consumer problem
+  //=====================================================================
+  // Node: If the consumers are more than the producers the consumers that didn't consume any value will still be waiting indefinitely
+
+  def createProducers(container: => SimpleContainer, number: Int): Unit = {
+    if(number <= 0) return
+    new Thread(() => {
+      println(s"[producer $number] Hard at work...")
+      Thread.sleep(2000)
+
+      container.synchronized {
+        container.value = number
+        println(s"[producer $number] I'm producing " + container.value)
+        container.notify()
+      }
+    }).start()
+    createProducers(container, number - 1)
+  }
+
+  def createConsumers(container: => SimpleContainer, number: Int): Unit = {
+    if (number <= 0) return
+    new Thread(() => {
+      println(s"[consumer $number] waiting...")
+      container.synchronized {
+        container.wait()
+        println(s"[consumer $number] I have consumed " + container.value)
+      }
+    }).start()
+    createConsumers(container, number - 1)
+  }
+  private def multipleProducerConsumer(): Unit = {
+    val container = new SimpleContainer
+    createProducers(container, 10)
+    createConsumers(container, 10)
+  }
+  multipleProducerConsumer()
+
+  // proving pass by reference works in scala
+//  case class MyMutableClass(var value: Int)
+//  def modifyValue(obj: MyMutableClass, newValue: Int): Unit = {
+//    obj.value = newValue
+//  }
+//  def incrementValue(obj: MyMutableClass): Unit = {
+//    obj.value += 1
+//  }
+//  val obj = MyMutableClass(10)
+//  println(obj.value)
+//  modifyValue(obj, 20)
+//  incrementValue(obj)
+//  println(obj.value)
 }
