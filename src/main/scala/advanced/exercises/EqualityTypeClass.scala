@@ -28,6 +28,11 @@ object EqualityTypeClass extends App {
   implicit object IntEqual extends Equal[Int] {
     override def exactEqual(intA: Int, intB: Int): Boolean = intA == intB
   }
+  // Enrich Equal Type class
+  implicit class EnrichEqual[T](self: T){
+    def ===(anotherValue: T)(implicit equal: Equal[T]): Boolean = Equal(self, anotherValue)
+    def !==(anotherValue: T)(implicit equal: Equal[T]): Boolean = !Equal(self, anotherValue)
+  }
   //==================================================================================
 
   case class User(name: String, age: Int)
@@ -41,5 +46,8 @@ object EqualityTypeClass extends App {
 
   println(Equal(1,1))
   println(Equal(1,2))
+
+  println(1 === 1)
+  println(1 !== 1)
 
 }

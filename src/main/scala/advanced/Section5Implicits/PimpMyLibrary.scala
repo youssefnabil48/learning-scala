@@ -10,7 +10,9 @@ import scala.language.implicitConversions
  * 2. Implicit classes Optionally extends AnyVal for memory optimization purposes
  * 3. Compiler doesn't do multiple implicit searches (only 1 depth level)
  * 4. implicit classes are basically plain classes when the implicit conversion
- *    - class RichAltInt(value: Int) = implicit def enrich(value: Int): RichAltInt = new RichAltInt(value)
+ *    - implicit class RichAltInt(value: Int) => class RichAltInt(value: Int) and implicit def enrich(value: Int): RichAltInt = new RichAltInt(value)
+ * 5. context bound is a syntactic sugar over implicit params as:
+ *    - def MyBoilerplate[t](content: T)(implicit serializer: JsonSerializer[T]): String =>
  */
 object PimpMyLibrary extends App {
 

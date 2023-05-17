@@ -8,7 +8,7 @@ object TypeClasses extends App {
   //==================================================================================
 
   /**
-   * the main contract
+   * the main type class
    */
   private trait JsonSerializer[T] {
     def serialize(value: T): String
@@ -41,11 +41,25 @@ object TypeClasses extends App {
    */
   println(JsonSerializer[Int])
 
+  /**
+   * Enrichment Class
+   */
+  implicit class JsonEnrichment[T](value: T) {
+    def toJson(implicit jsonSerializer: JsonSerializer[T]): String = jsonSerializer.serialize(value)
+  }
+  /**
+   * the compiler will try toJson on the user class and will fall back to any wrapper with is JsonEnrichment class
+   * and apply to json passing the implicit parameter serializer referring to type user which was found in UserSerializer then calls serialize on it
+   */
+  val john = User("john", 18, "john@user.com")
+  println(john.toJson)
+
   case class User(name: String, age: Int, email: String)
   private case class Student(id: Int, name: String, grade: String)
 
 
   val user = User("john", 18, "john@user.com")
+  println(user.toJson)
   println(JsonSerializer.serialize(10))
   println(JsonSerializer.serialize(user))
   private val student = Student(20146015, "ahmed" , "grade 10")
