@@ -81,7 +81,7 @@ object JsonSerializerTutorial extends App {
       "posts" -> JSONArray(feed.posts.map(_.toJSON))
     ))
   }
-  
+
   val now = new Date(System.currentTimeMillis())
   val john = User("John", 34, "john@rockthejvm.com")
   val feed = Feed(john, List(

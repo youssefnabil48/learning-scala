@@ -1,0 +1,45 @@
+Types of implicits
+
+1. Implicit Parameters:
+
+       Implicit parameters are used to pass arguments implicitly to functions or methods.
+       When a function or method has an implicit parameter, the compiler looks for a value of the corresponding type
+       within the current scope and automatically passes it.
+
+   Example:
+
+       def greet(name: String)(implicit greeting: String): Unit = {
+         println(s"$greeting, $name!")
+       }
+
+       implicit val greeting: String = "Hello"
+       greet("Alice") // The implicit parameter is automatically provided
+
+2. Implicit Conversions:
+
+       Implicit conversions allow you to define functions that automatically convert objects from one type to another.
+       This feature is often used for providing implicit conversions to enable richer operations on existing types
+       or to adapt types to fit certain interfaces or APIs.
+
+   Example:
+
+       // Implicit conversion to enable rich operations on Int
+       implicit def intToString(i: Int): String = i.toString
+
+       val num: Int = 42
+       val str: String = num // The implicit conversion intToString is automatically applied here
+
+3. Implicit Classes:
+
+       Implicit classes allow you to add new methods to existing types without modifying their original definition.
+       Implicit classes are defined with a single argument constructor,
+       and the class itself is automatically applied as an implicit conversion.
+
+   Example:
+
+        implicit class IntOps(value: Int) {
+          def squared: Int = value * value
+        }
+
+        val number: Int = 5
+        val result: Int = number.squared // The implicit class provides the squared method
