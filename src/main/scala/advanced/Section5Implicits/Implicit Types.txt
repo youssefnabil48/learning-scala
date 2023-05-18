@@ -15,7 +15,7 @@ Types of implicits
        implicit val greeting: String = "Hello"
        greet("Alice") // The implicit parameter is automatically provided
 
-2. Implicit Conversions:
+2. Implicit Functions (implicit Conversions):
 
        Implicit conversions allow you to define functions that automatically convert objects from one type to another.
        This feature is often used for providing implicit conversions to enable richer operations on existing types
@@ -29,7 +29,7 @@ Types of implicits
        val num: Int = 42
        val str: String = num // The implicit conversion intToString is automatically applied here
 
-3. Implicit Classes:
+3. Implicit Classes (Type Enrichment):
 
        Implicit classes allow you to add new methods to existing types without modifying their original definition.
        Implicit classes are defined with a single argument constructor,

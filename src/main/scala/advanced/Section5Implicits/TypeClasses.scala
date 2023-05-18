@@ -10,7 +10,7 @@ object TypeClasses extends App {
   /**
    * the main type class
    */
-  private trait JsonSerializer[T] {
+  trait JsonSerializer[T] {
     def serialize(value: T): String
   }
 
@@ -55,7 +55,7 @@ object TypeClasses extends App {
   println(john.toJson)
 
   case class User(name: String, age: Int, email: String)
-  private case class Student(id: Int, name: String, grade: String)
+  case class Student(id: Int, name: String, grade: String)
 
 
   val user = User("john", 18, "john@user.com")

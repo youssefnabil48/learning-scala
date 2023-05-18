@@ -34,7 +34,7 @@ object ThreadCommunication extends App {
   //=====================================================================
   // wait and notify
   //=====================================================================
-  private class SimpleContainer {
+  class SimpleContainer {
     private var v: Int = 0
     def value_=(newValue: Int): Unit = v = newValue
     def value: Int = {
@@ -44,7 +44,7 @@ object ThreadCommunication extends App {
     }
   }
 
-  private def producerConsumer(): Unit = {
+  def producerConsumer(): Unit = {
     val container = new SimpleContainer
 
     val consumer = new Thread(() => {

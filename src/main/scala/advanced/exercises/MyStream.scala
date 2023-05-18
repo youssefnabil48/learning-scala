@@ -11,8 +11,8 @@ import scala.annotation.tailrec
  */
 abstract class MyStream[+A] {
   def isEmpty: Boolean
-  val head: A
-  val tail: MyStream[A]
+  lazy val head: A
+  lazy val tail: MyStream[A]
 
   def #::[B >: A](element: B): MyStream[B]  // prepend operator
   def ++[B >: A](anotherStream: => MyStream[B]): MyStream[B] // concatenate two streams
@@ -62,7 +62,7 @@ class EmptyMyStream extends MyStream[Nothing] {
 class FullMyStream[+A](h: A, t: => MyStream[A]) extends MyStream[A] {
   override def isEmpty: Boolean = false
 
-  override val head: A = h
+  override lazy val head: A = h
 
   override lazy val tail: MyStream[A] = t
 

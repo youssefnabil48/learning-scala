@@ -1,7 +1,10 @@
 package org.learning
 package playground
 
-import scala.annotation.tailrec
+import scala.annotation.{tailrec, targetName}
+import math.Fractional.Implicits.infixFractionalOps
+import math.Integral.Implicits.infixIntegralOps
+import math.Numeric.Implicits.infixNumericOps
 
 class Node[T](val data: T, val next: Option[Node[T]] = None)
 
@@ -46,6 +49,10 @@ class MyLinkedList[T](private val _head: Option[Node[T]] = None) {
    * @return
    */
   def traverse(): String = {
+    extension (a: T) {
+      @targetName("T")
+      private def +(b: String) = a.toString + b
+    }
     def traverseHelper(node: Option[Node[T]]): String = {
       node match {
         case Some(h) => {
