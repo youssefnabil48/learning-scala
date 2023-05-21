@@ -1,10 +1,6 @@
 package org.learning
 package advanced.Section6TypesMastring
 
-import advanced.Section6TypesMastring.TypeMembers.Animal
-
-import org.learning.advanced.Section6TypesMastring.FBoundedPolymorphism.TypeClassMale
-
 /**
  * The Goal here is to define a constraint to the compiler that whoever extends this trait must return the same type when overriding eat method
  * 1. recursive type is when the class/trait itself appear in the class/trait signature
