@@ -4,7 +4,7 @@ package advanced.Section6TypesMastring
 
 /**
  * Notes:
- * 1. the compiler doesn't about member types in code blocks unless it's an alias
+ * 1. the compiler doesn't allow member types in code blocks unless it's an alias
  * 2. classes that are defined inside another object or classes (inner classes) is instance scoped
  *    - it means this class is not the same class of another instance
  * 3. All inner classes have the same parent as "OuterClass#InnerClass" (still not the same but share the same parent)

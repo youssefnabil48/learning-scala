@@ -57,18 +57,18 @@ object TypeMembers extends App {
   val varianceTest = new VarianceTest
 //  varianceTest.another(new Child) // doesn't work so only as invariant type parameter
 
-  // Exercise WHY IT's NOT WORKING IN SCALA 3
+//  Exercise WHY IT's NOT WORKING IN SCALA 3
 //  trait MList {
 //    type A <: Number
 //    def head: A
 //    def tail: MList
 //  }
 //
-//    class CustomList(hd: String, tl: CustomList) extends MList {
-//      type A = String
-//      def head = hd
-//      def tail = tl
-//    }
+//   class CustomList(hd: String, tl: CustomList) extends MList {
+//     type A = String
+//     def head = hd
+//     def tail = tl
+//   }
 //
 //  class IntList(hd: Int, tl: IntList) extends MList {
 //    type A = Int

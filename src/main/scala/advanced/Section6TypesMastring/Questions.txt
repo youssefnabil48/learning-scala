@@ -1,0 +1,18 @@
+
+
+1. why in scala 3 this gives an error in type members:
+
+      trait MList {
+        type A <: Number
+        def head: A
+        def tail: MList
+      }
+
+      class IntList(hd: Int, tl: IntList) extends MList {
+        type A = Int
+        def head = hd
+        def tail = tl
+      }
+
+2. variance overall
+3. why is it called f-bounded polymorphism>
