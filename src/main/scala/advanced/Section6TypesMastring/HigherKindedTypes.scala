@@ -54,4 +54,21 @@ object HigherKindedTypes extends App {
   println(multiply(List(1, 2), List("a", "b")))
   println(multiply(Some(2), Some("scala")))
 
+
+  trait CollectionWrapper[T[_]] {
+    def wrap[A](a: A): T[A]
+
+    def first[A](b: T[A]): A
+  }
+
+  object ListCollection extends CollectionWrapper[List] {
+    override def wrap[A](list: A): List[A] = List(list)
+
+    override def first[B](list: List[B]): B = list.head
+  }
+
+  ListCollection.wrap(List(1, 2, 3)).foreach(println)
+  ListCollection.wrap(List(true, false, true)).foreach(println)
+
+
 }
