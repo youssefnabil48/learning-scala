@@ -1,6 +1,9 @@
 package org.learning
 package advanced.Section6TypesMastring
 
+import scala.collection.StrictOptimizedSeqFactory
+import scala.collection.immutable.Seq
+
 
 /**
  * Notes:
@@ -62,13 +65,23 @@ object HigherKindedTypes extends App {
   }
 
   object ListCollection extends CollectionWrapper[List] {
-    override def wrap[A](list: A): List[A] = List(list)
+    override def wrap[A](element: A): List[A] = List(element)
 
-    override def first[B](list: List[B]): B = list.head
+    override def first[A](list: List[A]): A = list.head
   }
 
-  ListCollection.wrap(List(1, 2, 3)).foreach(println)
+  ListCollection.wrap(List(1,2,3)).foreach(println)
   ListCollection.wrap(List(true, false, true)).foreach(println)
+  println(ListCollection.first(List(true, false, true)))
 
+  trait FlatMappable[F[_], A] {
+    def flatMap[B](f: A => F[B]): F[B]
+  }
 
+//  trait Multiplier[M[_] <: scala.collection.Iterable[_], A] {
+//    def multiply[B](ma: Multiplier[M, A], mb: Multiplier[M, B]): M[(A,B)] = for {
+//      a <- ma
+//      b <- mb
+//    } yield (a, b)
+//  }
 }
